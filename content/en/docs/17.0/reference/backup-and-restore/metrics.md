@@ -6,9 +6,9 @@ weight: 10
 
 Backup and restore operations export several metrics using the expvars interface. These are available at the `/debug/vars` endpoint of Vtbackup's and VTTablet's http status pages. [More details can be found here](../../features/monitoring/#3-push-based-metrics-system).
 
-## Backup metrics
+## Backup and Restore metrics
 
-Metrics related to backup operations are available in both Vtbackup and VTTablet.
+Metrics related to backup and restore operations are available in both Vtbackup and VTTablet.
 
 #### BackupBytes, BackupCount, BackupDurationNanoseconds
 
@@ -26,10 +26,6 @@ These operations are counted and timed, and the number of bytes consumed or prod
 
 _backup_duration_seconds_ times the duration of a backup. This metric is deprecated and will be removed in a future release. Use _BackupDurationNanoseconds_ instead.
 
-## Restore metrics
-
-Metrics related to restore operations are available in both Vtbackup and VTTablet.
-
 #### RestoreBytes, RestoreCount, RestoreDurationNanoseconds
 
 Depending on the Backup Engine and Backup Storage in-use, a restore may be a complex pipeline of operations, including but not limited to:
@@ -46,6 +42,26 @@ These operations are counted and timed, and the number of bytes consumed or prod
 
 _restore_duration_seconds_ times the duration of a restore. This metric is deprecated and will be removed in a future release. Use _RestoreDurationNanoseconds_ instead.
 
+#### Instrumented components and operations
+
+| Component | Implementation | Operation | Metrics |
+|-|-|-|-|
+| BackupEngine | Builtin | Compressor:Close | BackupCount, BackupDurationNanoseconds  |
+| BackupEngine | Builtin | Compressor:Open | BackupCount, BackupDurationNanoseconds |
+| BackupEngine | Builtin | Compressor:Write | BackupBytes, BackupDurationNanoseconds |
+| BackupEngine | Builtin | Decompressor:Read | RestoreBytes, RestoreDurationNanoseconds |
+| BackupEngine | Builtin | Decompressor:Close | RestoreCount, RestoreDurationNanoseconds |
+| BackupEngine | Builtin | Decompressor:Open | RestoreCount, RestoreDurationNanoseconds |
+| BackupEngine | Builtin | Destination:Close | BackupCount, BackupDurationNanoseconds, RestoreCount, RestoreDurationNanoseconds |
+| BackupEngine | Builtin | Destination:Open | BackupCount, BackupDurationNanoseconds, RestoreCount, RestoreDurationNanoseconds |
+| BackupEngine | Builtin | Destination:Write | BackupBytes, BackupDurationNanoseconds, RestoreBytes, RestoreDurationNanoseconds |
+| BackupEngine | Builtin | Source:Close | BackupCount, BackupDurationNanoseconds, RestoreCount, RestoreDurationNanoseconds |
+| BackupEngine | Builtin | Source:Open | BackupCount, BackupDurationNanoseconds, RestoreCount, RestoreDurationNanoseconds |
+| BackupEngine | Builtin | Source:Read | BackupBytes, BackupDurationNanoseconds, RestoreBytes, RestoreDurationNanoseconds |
+| BackupStorage | File | File:Read | RestoreBytes, RestoreDurationNanoseconds |
+| BackupStorage | File | File:Write | BackupBytes, BackupDurationNanoseconds |
+| BackupStorage | S3 | S3:Upload | BackupCount, BackupDurationNanoseconds |
+
 ## Vtbackup metrics
 
 Vtbackup exports some metrics which are not available elsewhere.
@@ -59,6 +75,7 @@ _DurationByPhaseSeconds_ exports timings for these individual phases.
 <hr style="border-top: 2px dashed brown">
 
 ## Example
+
 **A snippet of vtbackup metrics after running it against the local example after creating the initial cluster**
 
 (Processed with `jq` for readability.)
