@@ -60,7 +60,7 @@ _restore_duration_seconds_ times the duration of a restore. This metric is depre
 | BackupEngine | Builtin | Source:Read | BackupBytes, BackupDurationNanoseconds, RestoreBytes, RestoreDurationNanoseconds |
 | BackupStorage | File | File:Read | RestoreBytes, RestoreDurationNanoseconds |
 | BackupStorage | File | File:Write | BackupBytes, BackupDurationNanoseconds |
-| BackupStorage | S3 | S3:Upload | BackupCount, BackupDurationNanoseconds |
+| BackupStorage | S3 | AWS:Request:Send | BackupBytes, BackupDurationNanoseconds, RestoreBytes, RestoreDurationNanoseconds |
 
 ## Vtbackup metrics
 
