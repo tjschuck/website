@@ -36,13 +36,13 @@ sudo systemctl disable mysql
 sudo systemctl disable etcd
 ```
 
-### Install Node 16.13.0+
+### Install Node 16
 
 ```
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 ```
 
-Ensure the following is in your bashrc/zshrc or similar:
+Ensure the following is in your bashrc/zshrc or similar. `nvm` automatically attempts adds these there:
 ```
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -52,11 +52,11 @@ export NVM_DIR="$HOME/.nvm"
 Finally, install [node](https://nodejs.org/):
 
 ```
-nvm install --lts 16.13.0
-nvm use 16.13.0
+nvm install 16
+nvm use 16
 ```
 
-See the [vtadmin README](https://github.com/vitessio/vitess/blob/main/web/vtadmin/README.md) for more details.
+See the [vtadmin README](https://github.com/vitessio/vitess/blob/release-16.0/web/vtadmin/README.md) for more details.
 
 ## Disable AppArmor or SELinux
 
@@ -84,13 +84,13 @@ Download the [latest binary release](https://github.com/vitessio/vitess/releases
 
 **Notes:**
 
-* Release 15.0 has a bug because of which the local example fails when try to run vtadmin web. [Issue#11679](https://github.com/vitessio/vitess/issues/11679)
-* Please use release [15.0.2](https://github.com/vitessio/vitess/releases/tag/v15.0.2) instead.
+* Release 16.0.0 has an issue where the VTAdmin `web` directory is missing from the release artefacts.
+* Please use release [16.0.1](https://github.com/vitessio/vitess/releases/tag/v16.0.1) instead.
 * Ubuntu is the only fully supported OS, for another OS please [build Vitess by yourself](/docs/contributing) or use the Docker images.
 
 ```sh
-version=15.0.2
-file=vitess-${version}-a914f40.tar.gz
+version=16.0.1
+file=vitess-${version}-d1ba625.tar.gz
 wget https://github.com/vitessio/vitess/releases/download/v${version}/${file}
 tar -xzf ${file}
 cd ${file/.tar.gz/}
@@ -204,6 +204,17 @@ vtadmin-api is running!
   - Logs: /Users/manangupta/vitess/vtdataroot/tmp/vtadmin-api.out
   - PID: 74039
 
+Installing nvm...
+
+nvm is installed!
+
+Configuring Node.js 16
+
+Downloading and installing node v16.19.1...
+Local cache found: ${NVM_DIR}/.cache/bin/node-v16.19.1-darwin-x64/node-v16.19.1-darwin-x64.tar.xz
+Checksums match! Using existing downloaded archive ${NVM_DIR}/.cache/bin/node-v16.19.1-darwin-x64/node-v16.19.1-darwin-x64.tar.xz
+Now using node v16.19.1 (npm v8.19.3)
+Now using node v16.19.1 (npm v8.19.3)
 
 > vtadmin@0.1.0 build
 > react-scripts build

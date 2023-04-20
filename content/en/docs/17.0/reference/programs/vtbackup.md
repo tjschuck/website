@@ -61,6 +61,10 @@ While it is running, `vtbackup` serves debugging info and metrics on port `15500
 | --backup_storage_compress | boolean | if set, the backup files will be compressed. (default true) |
 | --backup_storage_implementation | string | Which backup storage implementation to use for creating and restoring backups. |
 | --backup_storage_number_blocks | int | if backup_storage_compress is true, backup_storage_number_blocks sets the number of blocks that can be processed, at once, before the writer blocks, during compression (default is 2). It should be equal to the number of CPUs available for compression. (default 2) |
+| --builtinbackup-file-read-buffer-size | uint | read files using an IO buffer of this many bytes. Golang defaults are used when set to 0. |
+| --builtinbackup-file-write-buffer-size | uint | write files using an IO buffer of this many bytes. Golang defaults are used when set to 0. (default 2097152) |
+| --builtinbackup_mysqld_timeout | duration | how long to wait for mysqld to shutdown at the start of the backup. (default 10m0s) |
+| --builtinbackup_progress | duration | how often to send progress updates when backing up large files. (default 5s) |
 | --ceph_backup_storage_config | string | Path to JSON config file for ceph backup storage. (default "ceph_backup_config.json") |
 | --compression-engine-name | string | compressor engine used for compression. (default "pargzip") |
 | --compression-level | int | what level to pass to the compressor. (default 1) |
@@ -146,6 +150,7 @@ While it is running, `vtbackup` serves debugging info and metrics on port `15500
 | --log_err_stacks | boolean | log stack traces for errors |
 | --log_rotate_max_size | uint | size in bytes at which logs are rotated (glog.MaxSize) (default 1887436800) |
 | --logtostderr | boolean | log to standard error instead of files |
+| --manifest-external-decompressor | string | command with arguments to store in the backup manifest when compressing a backup with an external compression engine. |
 | --min_backup_interval | duration | Only take a new backup if it's been at least this long since the most recent backup. |
 | --min_retention_count | int | Always keep at least this many of the most recent backups in this backup storage location, even if some are older than the min_retention_time. This must be at least 1 since a backup must always exist to allow new backups to be made (default 1) |
 | --min_retention_time | duration | Keep each old backup for at least this long before removing it. Set to 0 to disable pruning of old backups. |

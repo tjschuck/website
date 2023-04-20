@@ -140,6 +140,36 @@ The change in isolation level only changes the shard level transaction isolation
 
 More details about the isolation level can be read in the [MySQL reference manual](https://dev.mysql.com/doc/refman/8.0/en/set-transaction.html).
 
+### Views
+Views are supported for sharded keyspaces as an experimental feature, it has to be enabled using: `--enable-views` on VTGate and `--queryserver-enable-views` on VTTablet. Views are only readable.
+
+Here is an example of how to create a view:
+
+```sql
+CREATE VIEW my_view AS SELECT id, col FROM user
+```
+
+When using the view in a `SELECT` statement it will be rewritten to a derived table:
+
+```sql
+-- the query:
+SELECT id FROM my_view
+-- will be rewritten to:
+SELECT id FROM (SELECT id, col FROM user) as my_view;
+```
+
+> **Warnings**:
+>
+> - Once views are enabled, they are managed by Vitess. They do not go through [online schema change](../../../user-guides/schema-changes/managed-online-schema-changes/), if enabled.
+>
+> - If you reshard your Vitess cluster, you will have to recreate your views. All previous views are not copied to the new shards.
+> 
+> - The table referenced by the view must belong to the same keyspace as the view's.
+>
+> - Views are only readable. Updatable views are not supported.
+
+The [RFC for views support](https://github.com/vitessio/vitess/issues/11559) is available on GitHub.
+
 ## Cross-shard Transactions
 
 Vitess supports multiple [transaction modes](../../../user-guides/configuration-advanced/shard-isolation-atomicity).
@@ -165,11 +195,11 @@ Vitess supports all of the data types available in MySQL. Using the `FLOAT` data
 
 Vitess behaves similar to the `STRICT_TRANS_TABLES` sql mode, and does not recommend changing the SQL Mode setting.
 
+## Prepared Statements
+
+Vitess supports prepared statements via the MySQL protocol and using the [`PREPARE` and `EXECUTE` SQL statements](https://dev.mysql.com/doc/refman/8.0/en/sql-prepared-statements.html).
+
 ## Network Protocol
-
-### Prepared Statements
-
-Vitess supports prepared statements via the MySQL protocol. Session-based commands using the `PREPARE` and `EXECUTE` SQL statements are currently not supported.
 
 ### Authentication Plugins
 

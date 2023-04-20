@@ -49,6 +49,8 @@ vtctld \
 | --backup_storage_compress | boolean | if set, the backup files will be compressed (default is true). |
 | --backup_storage_implementation | string | which implementation to use for the backup storage feature |
 | --backup_storage_number_blocks | int | if backup_storage_compress is true, backup_storage_number_blocks sets the number of blocks that can be processed, at once, before the writer blocks, during compression (default is 2). It should be equal to the number of CPUs available for compression (default 2) |
+| --builtinbackup-file-read-buffer-size | uint | read files using an IO buffer of this many bytes. Golang defaults are used when set to 0. |
+| --builtinbackup-file-write-buffer-size | uint | write files using an IO buffer of this many bytes. Golang defaults are used when set to 0. (default 2097152) |
 | --builtinbackup_mysqld_timeout | duration | how long to wait for mysqld to shutdown at the start of the backup. (default 10m0s) |
 | --builtinbackup_progress | duration | how often to send progress updates when backing up large files. (default 5s) |
 | --catch-sigpipe | | catch and ignore SIGPIPE on stdout and stderr if specified |
@@ -60,7 +62,6 @@ vtctld \
 | --datadog-agent-host | string | host to send spans to. if empty, no tracing will be done |
 | --datadog-agent-port | string | port to send spans to. if empty, no tracing will be done |
 | --disable_active_reparents | boolean | if set, do not allow active reparents. Use this to protect a cluster using external reparents. |
-| --durability_policy | string | type of durability to enforce. Default is none. Other values are dictated by registered plugins (default "none") |
 | --emit_stats | boolean | true iff we should emit stats to push-based monitoring/stats backends |
 | --external-compressor | string | command with arguments to use when compressing a backup. |
 | --external-compressor-extension | string | extension to use when using an external compressor. |
@@ -102,6 +103,7 @@ vtctld \
 | --log_err_stacks | boolean | log stack traces for errors |
 | --log_rotate_max_size | uint | size in bytes at which logs are rotated (glog.MaxSize) (default 1887436800) |
 | --logtostderr | boolean | log to standard error instead of files |
+| --manifest-external-decompressor | string | command with arguments to store in the backup manifest when compressing a backup with an external compression engine. |
 | --max-stack-size | int | configure the maximum stack size in bytes (default 67108864) |
 | --onclose_timeout | duration | wait no more than this for OnClose handlers before stopping (default 1ns) |
 | --onterm_timeout | duration | wait no more than this for OnTermSync handlers before stopping (default 10s) |
@@ -121,7 +123,7 @@ vtctld \
 | --s3_backup_storage_bucket | string | S3 bucket to use for backups |
 | --s3_backup_storage_root | string | root prefix for all backup-related object names |
 | --s3_backup_tls_skip_verify_cert | boolean | skip the 'certificate is valid' check for SSL connections |
-| --schema_change_check_interval | int | this value decides how often we check schema change dir, in seconds (default 60) |
+| --schema_change_check_interval | duration | How often the schema change dir is checked for schema changes. This value must be positive; if zero or lower, the default of 1m is used. |
 | --schema_change_controller | string | schema change controller is responsible for finding schema changes and responding to schema change events |
 | --schema_change_dir | string | directory contains schema changes for all keyspaces. Each keyspace has its own directory and schema changes are expected to live in '$KEYSPACE/input' dir. e.g. test_keyspace/input/*sql, each sql file represents a schema change |
 | --schema_change_replicas_timeout | duration | how long to wait for replicas to receive the schema change (default 10s) |

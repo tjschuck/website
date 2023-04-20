@@ -20,11 +20,35 @@ Depending on the Backup Engine and Backup Storage in-use, a backup may be a comp
 
 These operations are counted and timed, and the number of bytes consumed or produced by each stage of the pipeline are counted as well.
 
+Metrics related to backup operations are available in both Vtbackup and VTTablet.
+
+#### BackupBytes, BackupCount, BackupDurationNanoseconds
+
+Depending on the Backup Engine and Backup Storage in-use, a backup may be a complex pipeline of operations, including but not limited to:
+
+ * Reading files from disk.
+ * Compressing files.
+ * Uploading compress files to cloud object storage.
+
+These operations are counted and timed, and the number of bytes consumed or produced by each stage of the pipeline are counted as well.
+
 #### backup_duration_seconds
 
 **Deprecated**
 
 _backup_duration_seconds_ times the duration of a backup. This metric is deprecated and will be removed in a future release. Use _BackupDurationNanoseconds_ instead.
+
+#### RestoreBytes, RestoreCount, RestoreDurationNanoseconds
+
+Depending on the Backup Engine and Backup Storage in-use, a restore may be a complex pipeline of operations, including but not limited to:
+
+ * Downloading compressed files from cloud object storage.
+ * Decompressing files.
+ * Writing decompressed files to disk.
+
+These operations are counted and timed, and the number of bytes consumed or produced by each stage of the pipeline are counted as well.
+
+Metrics related to restore operations are available in both Vtbackup and VTTablet.
 
 #### RestoreBytes, RestoreCount, RestoreDurationNanoseconds
 
