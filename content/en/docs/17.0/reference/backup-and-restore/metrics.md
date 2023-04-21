@@ -16,7 +16,7 @@ Depending on the Backup Engine and Backup Storage in-use, a backup may be a comp
 
  * Reading files from disk.
  * Compressing files.
- * Uploading compress files to cloud object storage.
+ * Uploading compressed files to cloud object storage.
 
 These operations are counted and timed, and the number of bytes consumed or produced by each stage of the pipeline are counted as well.
 
@@ -28,7 +28,7 @@ Depending on the Backup Engine and Backup Storage in-use, a backup may be a comp
 
  * Reading files from disk.
  * Compressing files.
- * Uploading compress files to cloud object storage.
+ * Uploading compressed files to cloud object storage.
 
 These operations are counted and timed, and the number of bytes consumed or produced by each stage of the pipeline are counted as well.
 
